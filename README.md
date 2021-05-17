@@ -7,5 +7,6 @@ Using the command promt: pip install git+https://github.com/springlaughing/Stock
 ### Example usage
 
 >**from** AnalyzeStock.News **import** SentimentAnalyzer<br>
->sent = SentimentAnalyzer('stock_news_dataset')<br>
+>sent = SentimentAnalyzer('Your_path_to_dataset')<br>
 >sent.plot_scores(single_day=False)<br>
+<img width="500" alt="example" src="https://github.com/springlaughing/StockSentiment/blob/main/img/outpt_example1.png"
