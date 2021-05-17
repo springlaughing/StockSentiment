@@ -8,4 +8,5 @@ setup(name='StockSentiment',
      packages = find_packages(), 
      zip_safe = False, 
      url = 'https://github.com/springlaughing/StockSentiment',
+     dependency_links = ['git+http://github.com/springlaughing/StockSentiment.git#egg=StockSentiment']
      )
