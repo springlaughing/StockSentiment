@@ -1,6 +1,6 @@
 from setuptools import setup, find_packages
 
-setup(name='StockSentiment',
+setup(name='AnalyzeStock',
      version='0.0.1',
      description='Analysing sentiment polarity of stock news headlines',
      author='springlaughing',

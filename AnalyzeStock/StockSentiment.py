@@ -14,7 +14,7 @@ import nltk
 import matplotlib.pyplot as plt
 nltk.download('vader_lexicon')
 
-class StockSentimentAnalyzer:
+class SentimentAnalyzer:
     """Identify whether negative, positive or neutral news about a stock
     appeared on a particular day or a time period. 
     Process the html files, and analyse the sentiment polarity of 
