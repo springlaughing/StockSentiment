@@ -7,7 +7,5 @@ Using the command promt: pip install git+https://github.com/springlaughing/Stock
 ### Example usage
 
 >**from** AnalyzeStock.News **import** SentimentAnalyzer
-
 >sent = SentimentAnalyzer('stock_news_dataset')
-
 >sent.plot_scores(single_day=False)
