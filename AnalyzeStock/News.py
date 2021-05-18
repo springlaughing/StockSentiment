@@ -47,20 +47,16 @@ class SentimentAnalyzer:
     def _get_tables(self):
         html_tables = {}
 
-        # For every table in the datasets folder...
+        
         for table_name in os.listdir(self.directory):
             table_path = f'{self.directory}/{table_name}'
-            # Open as a python file in read-only mode
             table_file = open(table_path, 'r') 
-            # Read the contents of the file into 'html'/create beautiful soup instance
             html = BeautifulSoup(table_file)
-            # Find 'news-table' in the Soup and load it into 'html_table'
             html_table = html.find(id = 'news-table')
             html_tables[table_name] = html_table
         return html_tables
         
     def _parse(self):
-        # Hold the parsed news into a list
         parsed_news = []
         header = []
         dates = []
@@ -68,12 +64,10 @@ class SentimentAnalyzer:
             for x in news_table.findAll('a'):
                 header.append([x.get_text()])
 
-        # Iterate through the news
+        
         for file_name, news_table in self.html_tables.items():
-            # Iterate through all tr tags in 'news_table'
+            
             for x in news_table.findAll('tr'):
-                # Read the text from the tr tag into text
-                text = x.get_text() 
                 # Split the text in the td tag into a list 
                 date_scrape = x.td.text.split()
                 # If the length of 'date_scrape' is 1, load 'time' as the only element
@@ -164,7 +158,7 @@ Please choose another date within the range {min_date} and {max_date}.""")
                 
         else:
             
-           # Group by date and ticker columns from scored_news and calculate the mean
+           # Group by date and ticker columns from scored_news_clean and calculate the mean
             mean_c = self.polarity_scores.groupby(['Date', 'ticker']).mean()
             # Unstack the column ticker
             mean_c = mean_c.unstack('ticker')
