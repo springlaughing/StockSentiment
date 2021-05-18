@@ -12,6 +12,7 @@ import pandas as pd
 from nltk.sentiment.vader import SentimentIntensityAnalyzer
 import nltk
 import matplotlib.pyplot as plt
+plt.rcParams["figure.dpi"] = 300
 nltk.download('vader_lexicon')
 
 class SentimentAnalyzer:
