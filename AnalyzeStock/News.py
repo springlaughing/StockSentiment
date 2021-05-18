@@ -95,7 +95,7 @@ class SentimentAnalyzer:
         vader = SentimentIntensityAnalyzer()
         # Update the lexicon
         vader.lexicon.update(self.add_lexicon)
-        columns = ['ticker', 'date', 'time', 'headline']
+        columns = ['ticker', 'Date', 'Time', 'headline']
         # Convert the list of lists into a DataFrame
         scored_news = pd.DataFrame(self.parsed_headlines,columns=columns)
         # Iterate through the headlines and get the polarity scores
@@ -105,7 +105,7 @@ class SentimentAnalyzer:
         # Join the DataFrames
         scored_news = pd.concat([scored_news, scores_df], axis=1)
         # Convert the date column from string to datetime
-        scored_news['date'] = pd.to_datetime(scored_news.date).dt.date
+        scored_news['Date'] = pd.to_datetime(scored_news.Date).dt.date
         scored_news_clean = scored_news.drop_duplicates(subset=['headline', 'ticker'])
         return scored_news_clean
     
@@ -130,7 +130,7 @@ class SentimentAnalyzer:
        
         if single_day == True:
             # Set the index to ticker and date
-            one_day = self.polarity_scores.set_index(['ticker', 'date'])
+            one_day = self.polarity_scores.set_index(['ticker', 'Date'])
             # Cross-section the fb row
             one_day = one_day.xs(stock)
             # Select the 3rd of January of 2019
@@ -142,9 +142,9 @@ class SentimentAnalyzer:
                 try:
                     one_day = one_day.loc[date]
                     # Convert the datetime string to just the time
-                    one_day['time'] = pd.to_datetime(one_day['time']).dt.time
+                    one_day['Time'] = pd.to_datetime(one_day['Time']).dt.time
                     # Set the index to time and 
-                    one_day = one_day.set_index('time')
+                    one_day = one_day.set_index('Time')
                     # Sort it
                     one_day = one_day.sort_index()
                     TITLE = f"Negative, neutral, and positive sentiment for {stock} on {date}"
@@ -153,8 +153,7 @@ class SentimentAnalyzer:
                     # Change the column names to 'negative', 'positive', and 'neutral'
                     plot_day.columns = ['negative', 'neutral', 'positive']
                     # Plot a stacked bar chart
-
-                    plot_day.plot.bar(figsize = (10, 6), stacked=True, title=TITLE)
+                    plot_day.plot.bar(figsize = (10, 6), stacked=True, title=TITLE, color=['mediumblue', 'cornflowerblue', 'lightsteelblue'])
                 except TypeError:
                     print(f"""No data available for this stock on the choosen day. 
 Please choose another date within the range {min_date} and {max_date}.""")
@@ -165,7 +164,7 @@ Please choose another date within the range {min_date} and {max_date}.""")
         else:
             
            # Group by date and ticker columns from scored_news and calculate the mean
-            mean_c = self.polarity_scores.groupby(['date', 'ticker']).mean()
+            mean_c = self.polarity_scores.groupby(['Date', 'ticker']).mean()
             # Unstack the column ticker
             mean_c = mean_c.unstack('ticker')
             # Get the cross-section of compound in the 'columns' axis
@@ -173,15 +172,14 @@ Please choose another date within the range {min_date} and {max_date}.""")
             # y-value-borders for neg, pos, neutral compound score (see vader documentation https://github.com/cjhutto/vaderSentiment)
             y1 = 0.05
             y2 = -0.05
-            y3 = 1
-            y4 = -1
+            y3 = 0.75
+            y4 = -0.75
             stocks = ', '.join([mean_c.columns[x] for x in range(len(mean_c.columns))])
             TITLE = f"Daily average sentiment polarity score for stocks: {stocks}"
-            mean_c.plot.bar(figsize = (10, 6), title = TITLE)
-
-            plt.axhspan(y1, y2, alpha=0.2, color='yellow', label = 'neutral sentiment area')
-            plt.axhspan(y2, y4, alpha=0.2, color = 'red', label = 'negative sentiment area')
-            plt.axhspan(y1, y3, alpha=0.2, color = 'green', label = 'positive sentiment area')
+            mean_c.plot.bar(figsize = (10, 6), title = TITLE, color=['dimgray', 'blue'])
+            plt.axhspan(y1, y2, alpha=0.5, color='darkgray', label = 'neutral sentiment area')
+            plt.axhspan(y2, y4, alpha=0.5, color = 'dimgrey', label = 'negative sentiment area')
+            plt.axhspan(y1, y3, alpha=0.5, color = 'lightgray', label = 'positive sentiment area')
             plt.legend()
             plt.ylabel('Compound polarity score')
             plt.show()
