@@ -11,4 +11,4 @@ Using the command promt: <br>
 >**from** AnalyzeStock.News **import** SentimentAnalyzer<br>
 >sent = SentimentAnalyzer('Your_path_to_dataset')<br>
 >sent.plot_scores(single_day=False)<br>
-<img width="500" alt="example" src="https://github.com/springlaughing/StockSentiment/blob/main/img/output_example1.png">
+<img width="500" alt="example" src="https://github.com/springlaughing/StockSentiment/blob/main/img/output_example.png">
